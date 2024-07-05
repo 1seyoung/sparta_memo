@@ -4,16 +4,26 @@ import com.sparta.memo.dto.MemoRequestDto;
 import com.sparta.memo.dto.MemoResponseDto;
 import com.sparta.memo.entity.Memo;
 import com.sparta.memo.repository.MemoRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
+//@RequiredArgsConstructor // final 필드를 가지고 생성자를 만들어줌 lombok
 public class MemoService {
+
 
     private final MemoRepository memoRepository;
 
+    //@Autowired // 메소드로 의존성 주입
+    //public void setDi(MemoRepository memoRepository) {
+    //    this.memoRepository = memoRepository;
+    //}
 
     public MemoService(MemoRepository memoRepository) {
-        this.memoRepository = memoRepository;
+        this.memoRepository = memoRepository;  // 생성자를 통해 의존성 주입
     }
     public MemoResponseDto createMemo(MemoRequestDto requestDto) {
 

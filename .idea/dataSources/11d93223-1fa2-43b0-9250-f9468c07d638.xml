@@ -1052,7 +1052,7 @@ test_database|schema||test|localhost|UPDATE|G</Grants>
     </schema>
     <schema id="294" parent="1" name="memo">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2024-07-02.03:12:30</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-07-05.03:16:05</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <user id="295" parent="1" name="mysql.infoschema">
@@ -1083,8 +1083,8 @@ test_database|schema||test|localhost|UPDATE|G</Grants>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
     <column id="301" parent="300" name="id">
-      <AutoIncrement>1</AutoIncrement>
-      <DasType>bigint|0s</DasType>
+      <AutoIncrement>2</AutoIncrement>
+      <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
@@ -1094,7 +1094,7 @@ test_database|schema||test|localhost|UPDATE|G</Grants>
       <Position>2</Position>
     </column>
     <column id="303" parent="300" name="username">
-      <DasType>varchar(255)|0s</DasType>
+      <DasType>varchar(100)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
@@ -1103,10 +1103,18 @@ test_database|schema||test|localhost|UPDATE|G</Grants>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="305" parent="300" name="PRIMARY">
+    <index id="305" parent="300" name="UK_n3qr0n9og6katwb84yqcia5ib">
+      <ColNames>username</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="306" parent="300" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <key id="307" parent="300" name="UK_n3qr0n9og6katwb84yqcia5ib">
+      <UnderlyingIndexName>UK_n3qr0n9og6katwb84yqcia5ib</UnderlyingIndexName>
     </key>
   </database-model>
 </dataSource>
