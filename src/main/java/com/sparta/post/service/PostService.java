@@ -65,4 +65,11 @@ public class PostService {
 
 
     }
+
+    public PostResponseDto getPostById(Long id) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 포스트가 존재하지 않습니다."));
+
+        return new PostResponseDto(post);
+    }
 }

@@ -1,430 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Market Service</title>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
-
     <style>
-        @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css);
-
-        body {
-            margin: 0px;
-            font-family: 'Noto Sans KR', sans-serif;
-        }
-
-        .wrap {
-            width: 538px;
-            margin: 10px auto;
-        }
-
-        .area-write, .area-edit {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 500px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            background: #fff;
-            border-radius: 8px;
-            z-index: 1000;
-        }
-
-        .area-write input, .area-write textarea,
-        .area-edit input, .area-edit textarea {
-            width: 100%;
-            box-sizing: border-box;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        .area-write button, .area-edit button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            background-color: #ff7f00;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 10px;
-        }
-
-        .header {
-            margin-top: 50px;
-            text-align: center;
-        }
-
-        .header h2 {
-            font-size: 42px;
-            font-weight: 500;
-            color: #ffffff;
-        }
-
-        .header p {
-            font-size: 16px;
-            font-weight: 500;
-            color: #ffffff;
-        }
-
-        .background-header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            height: 200px;
-            background-color: #ff7f00;
-            z-index: -1;
-        }
-
-        .background-body {
-            position: fixed;
-            top: 200px;
-            width: 100%;
-            height: calc(100% - 200px);
-            background-color: #fff;
-            z-index: -1;
-        }
-
-        .card {
-            width: 538px;
-            border-radius: 5px;
-            background-color: #ffffff;
-            margin-bottom: 12px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            position: relative;
-        }
-
-        .card .metadata {
-            font-size: 12px;
-            color: #999;
-        }
-
-        .card .contents-title {
-            margin-top: 10px;
-        }
-
-        .card .contents-title .title {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .card .contents-title p {
-            margin: 0;
-        }
-
-        .card .contents {
-            display: none;
-            margin-top: 10px;
-            font-size: 14px;
-        }
-
-        .card .actions {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            display: flex;
-            gap: 10px;
-        }
-
-        .card .actions button {
-            background: none;
-            border: none;
-            color: #999;
-            cursor: pointer;
-            font-size: 14px;
-            padding: 0;
-        }
-
-        .card .view-button {
-            margin-top: 10px;
-            display: flex;
-            justify-content: flex-end;
-        }
-
-        .card .view-button button {
-            padding: 5px 10px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        #cards-box {
-            margin-top: 20px;
-        }
-
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-        }
-
-        .delete-confirmation {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 400px;
-            padding: 20px;
-            background: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            z-index: 1000;
-            text-align: center;
-        }
-
-        .delete-confirmation button {
-            padding: 10px 20px;
-            margin: 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .delete-confirmation .confirm {
-            background-color: #d9534f;
-            color: white;
-        }
-
-        .delete-confirmation .cancel {
-            background-color: #6c757d;
-            color: white;
-        }
+        body { margin: 0; font-family: 'Noto Sans KR', sans-serif; }
+        .wrap { width: 538px; margin: 10px auto; }
+        .background-header { position: fixed; z-index: -1; top: 0; width: 100%; height: 428px; background-color: #ff7f50; }
+        .background-body { position: fixed; z-index: -1; top: 428px; height: 100%; width: 100%; background-color: #dee2e6; }
+        .header { margin-top: 50px; text-align: center; color: #ffffff; }
+        .header h2 { font-size: 42px; }
+        .header p { margin: 40px auto; font-size: 16px; }
+        .area-write, .edit-write, .delete-confirmation { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); }
+        .area-write input, .area-write textarea, .edit-write input, .edit-write textarea { width: 100%; margin-bottom: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        .area-write button, .edit-write button, .delete-confirmation button { width: 49%; padding: 10px; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px; }
+        .area-write button:last-child, .edit-write button:last-child, .delete-confirmation button:last-child { margin-left: 2%; }
+        #writePostBtn { display: block; margin: 20px auto; padding: 10px 20px; background-color: #ff7f50; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        .card { width: 538px; background-color: #ffffff; border-radius: 5px; margin-bottom: 12px; padding: 15px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); }
+        .card .metadata { display: flex; justify-content: space-between; color: #adb5bd; }
+        .card .contents { margin-top: 10px; }
+        .card .contents p { display: none; }
+        .card .contents .price { margin-top: 5px; color: #ff7f50; }
+        .card .footer { margin-top: 10px; text-align: right; }
+        .card .footer button { margin-left: 10px; border: none; background: none; color: grey; cursor: pointer; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); }
+        .delete-confirmation { text-align: center; }
+        .delete-confirmation button.confirm { background-color: #ff7f50; color: white; }
+        .delete-confirmation button.cancel { background-color: #ccc; }
     </style>
-    <script>
-        $(document).ready(function () {
-            getPosts();
-
-            $('#writePostBtn').on('click', function () {
-                openWriteModal();
-            });
-
-            $('#writeModalClose').on('click', function () {
-                closeWriteModal();
-            });
-
-            $('#editModalClose').on('click', function () {
-                closeEditModal();
-            });
-
-            $('#writePostSubmit').on('click', function () {
-                writePost();
-            });
-
-            $('#editPostSubmit').on('click', function () {
-                submitEditPost();
-            });
-
-            $('#deleteConfirmYes').on('click', function () {
-                confirmDeletePost();
-            });
-
-            $('#deleteConfirmNo').on('click', function () {
-                cancelDeletePost();
-            });
-        });
-
-        function openWriteModal() {
-            $('#writeModal').show();
-            $('#modalOverlay').show();
-        }
-
-        function closeWriteModal() {
-            $('#writeModal').hide();
-            $('#modalOverlay').hide();
-        }
-
-        function openEditModal(post) {
-            $('#editId').val(post.id);
-            $('#editUsername').val(post.username);
-            $('#editTitle').val(post.title);
-            $('#editPrice').val(post.price);
-            $('#editContent').val(post.content);
-            $('#editModal').show();
-            $('#modalOverlay').show();
-        }
-
-        function closeEditModal() {
-            $('#editModal').hide();
-            $('#modalOverlay').hide();
-        }
-
-        function getPosts() {
-            $('#cards-box').empty();
-            $.ajax({
-                type: 'GET',
-                url: '/api/post',
-                success: function (response) {
-                    for (let i = 0; i < response.length; i++) {
-                        let post = response[i];
-                        addPostHTML(post);
-                    }
-                }
-            });
-        }
-
-        function addPostHTML(post) {
-            let tempHtml = `
-                <div class="card">
-                    <div class="metadata">
-                        <div>${post.username}</div>
-                        <div>${post.modifiedAt}</div>
-                    </div>
-                    <div class="contents-title">
-                        <h4 class="title">${post.title}</h4>
-                        <p>${post.price}원</p>
-                    </div>
-                    <div class="actions">
-                        <button class="edit" onclick="editPost(${post.id})">수정</button>
-                        <button class="delete" onclick="deletePost(${post.id})">삭제</button>
-                    </div>
-                    <div class="contents" id="contents-${post.id}">
-                        <p>${post.content}</p>
-                    </div>
-                    <div class="view-button">
-                        <button class="view" onclick="toggleContents(${post.id})">자세히 보기</button>
-                    </div>
-                </div>`;
-            $('#cards-box').append(tempHtml);
-        }
-
-        function toggleContents(id) {
-            $(`#contents-${id}`).toggle();
-        }
-
-        function writePost() {
-            let username = $('#writeUsername').val();
-            let title = $('#writeTitle').val();
-            let price = $('#writePrice').val();
-            let content = $('#writeContent').val();
-
-            if (!username || !title || !price || !content) {
-                alert('모든 필드를 입력해주세요.');
-                return;
-            }
-
-            let data = {
-                username: username,
-                title: title,
-                price: parseInt(price),
-                content: content
-            };
-
-            $.ajax({
-                type: "POST",
-                url: "/api/post",
-                contentType: "application/json",
-                data: JSON.stringify(data),
-                success: function () {
-                    alert('게시글이 성공적으로 작성되었습니다.');
-                    closeWriteModal();
-                    getPosts();
-                },
-                error: function () {
-                    alert('게시글 작성에 실패하였습니다.');
-                }
-            });
-        }
-
-        function editPost(id) {
-            $.ajax({
-                type: "GET",
-                url: `/api/post/${id}`,
-                success: function (response) {
-                    openEditModal(response);
-                },
-                error: function () {
-                    alert('게시글 불러오기에 실패하였습니다.');
-                }
-            });
-        }
-
-        function submitEditPost() {
-            let id = $('#editId').val();
-            let username = $('#editUsername').val();
-            let title = $('#editTitle').val();
-            let price = $('#editPrice').val();
-            let content = $('#editContent').val();
-
-            if (!username || !title || !price || !content) {
-                alert('모든 필드를 입력해주세요.');
-                return;
-            }
-
-            let data = {
-                username: username,
-                title: title,
-                price: parseInt(price),
-                content: content
-            };
-
-            $.ajax({
-                type: "PUT",
-                url: `/api/post/${id}`,
-                contentType: "application/json",
-                data: JSON.stringify(data),
-                success: function () {
-                    alert('게시글이 성공적으로 수정되었습니다.');
-                    closeEditModal();
-                    getPosts();
-                },
-                error: function () {
-                    alert('게시글 수정에 실패하였습니다.');
-                }
-            });
-        }
-
-        function deletePost(id) {
-            $('#deleteId').val(id);
-            $('#deleteConfirmation').show();
-            $('#modalOverlay').show();
-        }
-
-        function confirmDeletePost() {
-            let id = $('#deleteId').val();
-            $.ajax({
-                type: "DELETE",
-                url: `/api/post/${id}`,
-                success: function () {
-                    alert('게시글이 성공적으로 삭제되었습니다.');
-                    closeDeleteConfirmation();
-                    getPosts();
-                },
-                error: function () {
-                    alert('게시글 삭제에 실패하였습니다.');
-                }
-            });
-        }
-
-        function cancelDeletePost() {
-            closeDeleteConfirmation();
-        }
-
-        function closeDeleteConfirmation() {
-            $('#deleteConfirmation').hide();
-            $('#modalOverlay').hide();
-        }
-    </script>
 </head>
-
 <body>
 <div class="background-header"></div>
 <div class="background-body"></div>
@@ -433,33 +40,214 @@
         <h2>Market</h2>
         <p>판매하고 싶은 상품을 입력해주세요.</p>
     </div>
-    <div class="area-write" id="writeModal">
-        <input type="text" id="writeUsername" placeholder="이름을 입력해주세요">
-        <input type="text" id="writeTitle" placeholder="제목을 입력해주세요">
-        <input type="number" id="writePrice" placeholder="가격을 입력해주세요">
-        <textarea id="writeContent" placeholder="내용을 입력해주세요"></textarea>
-        <button id="writePostSubmit">작성하기</button>
-        <button id="writeModalClose">닫기</button>
-    </div>
-    <div class="area-edit" id="editModal">
-        <input type="hidden" id="editId">
-        <input type="text" id="editUsername" placeholder="이름을 입력해주세요">
-        <input type="text" id="editTitle" placeholder="제목을 입력해주세요">
-        <input type="number" id="editPrice" placeholder="가격을 입력해주세요">
-        <textarea id="editContent" placeholder="내용을 입력해주세요"></textarea>
-        <button id="editPostSubmit">수정하기</button>
-        <button id="editModalClose">닫기</button>
-    </div>
-    <div class="modal-overlay" id="modalOverlay"></div>
-    <div id="cards-box" class="area-read"></div>
-    <button id="writePostBtn">글쓰기</button>
-    <div class="delete-confirmation" id="deleteConfirmation">
-        <p>정말 삭제하시겠습니까?</p>
-        <input type="hidden" id="deleteId">
-        <button class="confirm" id="deleteConfirmYes">예</button>
-        <button class="cancel" id="deleteConfirmNo">아니오</button>
-    </div>
+    <button id="writePostBtn">작성하기</button>
+    <div id="cards-box"></div>
 </div>
-</body>
+<div id="modalOverlay" class="modal-overlay"></div>
+<div id="writeModal" class="area-write">
+    <input id="writeUsername" type="text" placeholder="이름을 입력해주세요">
+    <input id="writeTitle" type="text" placeholder="제목을 입력해주세요">
+    <input id="writePrice" type="text" placeholder="가격을 입력해주세요">
+    <textarea id="writeContent" placeholder="내용을 입력해주세요"></textarea>
+    <button id="writePostSubmit">작성하기</button>
+    <button id="writeModalClose">닫기</button>
+</div>
+<div id="editModal" class="edit-write">
+    <input id="editId" type="hidden">
+    <input id="editUsername" type="text" placeholder="이름을 입력해주세요">
+    <input id="editTitle" type="text" placeholder="제목을 입력해주세요">
+    <input id="editPrice" type="text" placeholder="가격을 입력해주세요">
+    <textarea id="editContent" placeholder="내용을 입력해주세요"></textarea>
+    <button id="editPostSubmit">수정하기</button>
+    <button id="editModalClose">닫기</button>
+</div>
+<div id="deleteConfirmation" class="delete-confirmation">
+    <p>정말 삭제하시겠습니까?</p>
+    <button id="deleteConfirmYes" class="confirm">예</button>
+    <button id="deleteConfirmNo" class="cancel">아니오</button>
+</div>
+<script>
+    $(document).ready(function () {
+        getPosts();
+        $('#writePostBtn').click(function () { openWriteModal(); });
+        $('#writeModalClose').click(function () { closeWriteModal(); });
+        $('#writePostSubmit').click(function () { submitWritePost(); });
+        $('#editModalClose').click(function () { closeEditModal(); });
+        $('#editPostSubmit').click(function () { submitEditPost(); });
+        $('#deleteConfirmYes').click(function () { confirmDeletePost(); });
+        $('#deleteConfirmNo').click(function () { cancelDeletePost(); });
+    });
 
+    function openWriteModal() {
+        $('#writeModal').show();
+        $('#modalOverlay').show();
+    }
+
+    function closeWriteModal() {
+        $('#writeModal').hide();
+        $('#modalOverlay').hide();
+    }
+
+    function openEditModal(post) {
+        $('#editId').val(post.id);
+        $('#editUsername').val(post.username);
+        $('#editTitle').val(post.title);
+        $('#editPrice').val(post.price);
+        $('#editContent').val(post.content);
+        $('#editModal').show();
+        $('#modalOverlay').show();
+    }
+
+    function closeEditModal() {
+        $('#editModal').hide();
+        $('#modalOverlay').hide();
+    }
+
+    function getPosts() {
+        $('#cards-box').empty();
+        $.ajax({
+            type: 'GET',
+            url: '/api/post',
+            success: function (response) {
+                for (let i = 0; i < response.length; i++) {
+                    let post = response[i];
+                    addPostHTML(post);
+                }
+            },
+            error: function () {
+                alert('게시글 불러오기에 실패하였습니다.');
+            }
+        });
+    }
+
+    function addPostHTML(post) {
+        let tempHtml = `
+                <div class="card">
+                    <div class="metadata">
+                        <div>
+                            <div class="username">${post.username}</div>
+                            <div class="date">${post.modifiedAt}</div>
+                        </div>
+                        <div>
+                            <button onclick="editPost(${post.id})">수정</button>
+                            <button onclick="deletePost(${post.id})">삭제</button>
+                        </div>
+                    </div>
+                    <div class="contents">
+                        <div class="title">${post.title}</div>
+                        <div class="price">${post.price}원</div>
+                        <p>${post.content}</p>
+                        <button onclick="toggleContent(this)">자세히 보기</button>
+                    </div>
+                </div>`;
+        $('#cards-box').append(tempHtml);
+    }
+
+    function toggleContent(button) {
+        $(button).siblings('p').toggle();
+    }
+
+    function submitWritePost() {
+        let username = $('#writeUsername').val();
+        let title = $('#writeTitle').val();
+        let price = $('#writePrice').val();
+        let content = $('#writeContent').val();
+
+        let data = {
+            username: username,
+            title: title,
+            price: parseInt(price),
+            content: content
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/api/post",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function () {
+                alert('게시글이 성공적으로 작성되었습니다.');
+                closeWriteModal();
+                getPosts();
+            },
+            error: function () {
+                alert('게시글 작성에 실패하였습니다.');
+            }
+        });
+    }
+
+    function editPost(id) {
+        $.ajax({
+            type: "GET",
+            url: `/api/post/${id}`,
+            success: function (response) {
+                openEditModal(response);
+            },
+            error: function () {
+                alert('게시글 불러오기에 실패하였습니다.');
+            }
+        });
+    }
+
+    function submitEditPost() {
+        let id = $('#editId').val();
+        let username = $('#editUsername').val();
+        let title = $('#editTitle').val();
+        let price = $('#editPrice').val();
+        let content = $('#editContent').val();
+
+        let data = {
+            username: username,
+            title: title,
+            price: parseInt(price),
+            content: content
+        };
+
+        $.ajax({
+            type: "PUT",
+            url: `/api/post/${id}`,
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function () {
+                alert('게시글이 성공적으로 수정되었습니다.');
+                closeEditModal();
+                getPosts();
+            },
+            error: function () {
+                alert('게시글 수정에 실패하였습니다.');
+            }
+        });
+    }
+
+    let deletePostId = null;
+
+    function deletePost(id) {
+        deletePostId = id;
+        $('#deleteConfirmation').show();
+        $('#modalOverlay').show();
+    }
+
+    function confirmDeletePost() {
+        if (!deletePostId) return;
+        $.ajax({
+            type: "DELETE",
+            url: `/api/post/${deletePostId}`,
+            success: function () {
+                alert('게시글이 성공적으로 삭제되었습니다.');
+                cancelDeletePost();
+                getPosts();
+            },
+            error: function () {
+                alert('게시글 삭제에 실패하였습니다.');
+            }
+        });
+    }
+
+    function cancelDeletePost() {
+        $('#deleteConfirmation').hide();
+        $('#modalOverlay').hide();
+        deletePostId = null;
+    }
+</script>
+</body>
 </html>
