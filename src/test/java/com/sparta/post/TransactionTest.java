@@ -1,6 +1,6 @@
-package com.sparta.memo;
+package com.sparta.post;
 
-import com.sparta.memo.entity.Memo;
+import com.sparta.post.entity.Post;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.DisplayName;
@@ -18,7 +18,7 @@ public class TransactionTest {
     @Rollback(value = false) // 테스트 코드에서 @Transactional 를 사용하면 테스트가 완료된 후 롤백하기 때문에 false 옵션 추가
     @DisplayName("메모 생성 성공")
     void test1() {
-        Memo memo = new Memo();
+        Post memo = new Post();
         memo.setUsername("Robbert");
         memo.setContents("@Transactional 테스트 중!");
 

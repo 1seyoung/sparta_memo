@@ -1,13 +1,13 @@
-package com.sparta.memo;
+package com.sparta.post;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MemoApplication {
+public class PostApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MemoApplication.class, args);
+        SpringApplication.run(PostApplication.class, args);
     }
 
 }
